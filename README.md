@@ -9,3 +9,9 @@
 - `index.html` — 플립북 본체 (페이지 이미지 91장 참조)
 - `pages/` — 페이지 이미지 (`page-001.jpg` ~ `page-091.jpg`)
 - `lib/`, `extras/` — turn.js 라이브러리와 의존 스크립트
+
+## 404·리다이렉트
+
+- GitHub Pages(`main` 루트)가 없는 URL에 루트의 `404.html`을 HTTP 404로 돌려준다. 자산 경로는 `/2024_client_MinJeong_Interaction-pages/` 기준 절대경로.
+- GitHub Pages는 서버 리다이렉트가 불가하다. 옛 공개 페이지가 있을 때만 meta refresh 스텁을 둔다.
+- 현재 리다이렉트 0개: git 이력의 유일한 HTML 이동(`samples/basic/index.html` → `index.html`, 2025-01-26)은 첫 배포 후 약 3분만 존재했고 외부 링크 근거가 없다.
