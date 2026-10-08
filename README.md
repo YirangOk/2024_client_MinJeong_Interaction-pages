@@ -2,7 +2,7 @@
 
 클라이언트 작업 (2024). turn.js 기반 플립북 인터랙션 페이지.
 
-**라이브 페이지:** https://yirangok.github.io/2024-client-minjeong-interaction-pages/
+**라이브 페이지:** https://yirangok.github.io/2024_client_MinJeong_Interaction-pages/
 
 ## 구조
 
