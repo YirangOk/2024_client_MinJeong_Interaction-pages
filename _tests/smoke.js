@@ -57,13 +57,15 @@ async function open(browser, opts, url) {
   const ctx = await browser.newContext(opts);
   const page = await ctx.newPage();
   const problems = [];
+  const requests = [];
+  page.on("request", (r) => requests.push(r.url()));
   // "Failed to load resource" 콘솔 문구는 주소가 없어 아래 response 쪽에서 주소와 함께 잡는다(일부러 연 no-such-page 제외).
   page.on("console", (m) => m.type() === "error" && !m.text().startsWith("Failed to load resource") && problems.push("console: " + m.text()));
   page.on("pageerror", (e) => problems.push("pageerror: " + e));
   page.on("requestfailed", (r) => problems.push("failed: " + r.url()));
   page.on("response", (r) => r.status() >= 400 && !/no-such-page/.test(r.url()) && problems.push(r.status() + " " + r.url()));
   const response = await page.goto(url, { waitUntil: "networkidle" });
-  return { ctx, page, problems, response };
+  return { ctx, page, problems, requests, response };
 }
 
 const view = (page) => page.evaluate(() => jQuery(".flipbook").turn("view").join());
@@ -89,13 +91,15 @@ async function pressCorner(page, opts, pageNo, side) {
 }
 
 async function checkFlipbook(browser, base, { name, flip, opts }) {
-  const { ctx, page, problems } = await open(browser, opts, base);
+  const { ctx, page, problems, requests } = await open(browser, opts, base);
   const shot = (label) => SHOTS && page.screenshot({ path: path.join(SHOTS, name.split(" ")[1] + "-" + label + ".png") });
 
   const init = await page.evaluate(() => ({ page: jQuery(".flipbook").turn("page"), pages: jQuery(".flipbook").turn("pages") }));
   check(name + ": 첫 화면이 표지(1쪽), 전체 91쪽", init.page === 1 && init.pages === 91, init);
   check(name + ": 표지 이미지가 표시됨", await page.evaluate(() => /page-001\.jpg/.test(getComputedStyle(document.querySelector(".flipbook .p1")).backgroundImage)));
   check(name + ": 책 둘레 노란 글로우", await page.evaluate(() => getComputedStyle(document.querySelector(".flipbook .shadow")).boxShadow.includes("rgb(255, 255, 0)")));
+  const repeated = requests.filter((url, i) => requests.indexOf(url) !== i);
+  check(name + ": 첫 로딩에 같은 파일을 두 번 받지 않음", repeated.length === 0, repeated);
   await shot("1-cover");
 
   if (flip) {
