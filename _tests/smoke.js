@@ -78,6 +78,17 @@ async function settled(page, expected) {
   return view(page);
 }
 
+// 지금 펼침면의 쪽마다 제 이미지가 배경으로 걸려 있고 실제로 요청됐는지 본다.
+async function imagesShown(page, requests) {
+  const files = await page.evaluate(() =>
+    jQuery(".flipbook").turn("view").filter(Boolean).map((n) => {
+      const file = "page-" + String(n).padStart(3, "0") + ".jpg";
+      return getComputedStyle(document.querySelector(".flipbook .p" + n)).backgroundImage.includes(file) ? file : "";
+    })
+  );
+  return files.every((file) => file && requests.some((url) => url.endsWith(file)));
+}
+
 // 쪽의 아래 모서리를 실제 포인터로 누른다(터치 기기는 탭, 아니면 마우스). 화면 밖 좌표는 화면 가장자리로 당긴다.
 async function pressCorner(page, opts, pageNo, side) {
   const box = await page.locator(".flipbook .p" + pageNo).boundingBox();
@@ -96,7 +107,9 @@ async function checkFlipbook(browser, base, { name, flip, opts }) {
 
   const init = await page.evaluate(() => ({ page: jQuery(".flipbook").turn("page"), pages: jQuery(".flipbook").turn("pages") }));
   check(name + ": 첫 화면이 표지(1쪽), 전체 91쪽", init.page === 1 && init.pages === 91, init);
-  check(name + ": 표지 이미지가 표시됨", await page.evaluate(() => /page-001\.jpg/.test(getComputedStyle(document.querySelector(".flipbook .p1")).backgroundImage)));
+  check(name + ": 표지 이미지가 표시됨", await imagesShown(page, requests));
+  const firstImages = requests.filter((url) => url.endsWith(".jpg")).length;
+  check(name + ": 첫 로딩에 쪽 이미지를 6장 이하만 받음", firstImages <= 6, firstImages);
   check(name + ": 책 둘레 노란 글로우", await page.evaluate(() => getComputedStyle(document.querySelector(".flipbook .shadow")).boxShadow.includes("rgb(255, 255, 0)")));
   const repeated = requests.filter((url, i) => requests.indexOf(url) !== i);
   check(name + ": 첫 로딩에 같은 파일을 두 번 받지 않음", repeated.length === 0, repeated);
@@ -105,6 +118,7 @@ async function checkFlipbook(browser, base, { name, flip, opts }) {
   if (flip) {
     await pressCorner(page, opts, 1, "right");
     check(name + ": 표지 오른쪽 아래 모서리 → 2-3쪽", (await settled(page, "2,3")) === "2,3", await view(page));
+    check(name + ": 넘긴 펼침면에 이미지가 표시됨", await imagesShown(page, requests));
     await shot("2-spread");
     await pressCorner(page, opts, 3, "right");
     check(name + ": 오른쪽 모서리 → 4-5쪽", (await settled(page, "4,5")) === "4,5", await view(page));
@@ -117,6 +131,7 @@ async function checkFlipbook(browser, base, { name, flip, opts }) {
   await page.evaluate(() => jQuery(".flipbook").turn("next"));
   check(name + ": 끝에서 다음으로 넘겨도 91쪽 유지", (await settled(page, "90,91")) === "90,91", await view(page));
   await page.waitForLoadState("networkidle");
+  check(name + ": 마지막 펼침면에 이미지가 표시됨", await imagesShown(page, requests));
   await shot("3-last");
 
   check(name + ": 콘솔 에러·실패 요청 없음", problems.length === 0, problems);
