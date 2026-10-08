@@ -177,6 +177,12 @@ async function check404(browser, base, { name, opts }) {
   const { ctx, page, problems, response } = await open(browser, opts, base + "no-such-page");
   check(name + ": 없는 주소는 HTTP 404 + 404 페이지", response.status() === 404 && (await page.textContent("h1")) === "404");
   check(name + ": 404 복귀 링크가 플립북 주소", (await page.getAttribute("a", "href")) === PREFIX);
+  const layout = await page.evaluate(() => {
+    const card = document.querySelector(".page").getBoundingClientRect();
+    return { card: [card.left, card.right], viewport: innerWidth, linkHeight: document.querySelector("a").getBoundingClientRect().height };
+  });
+  check(name + ": 404 카드가 화면 폭 안에 들어옴", layout.card[0] >= 0 && layout.card[1] <= layout.viewport, layout);
+  check(name + ": 404 복귀 링크 터치 높이 44px 이상", layout.linkHeight >= 44, layout.linkHeight);
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, name.split(" ")[1] + "-404.png") });
   await page.click("a");
   await page.waitForSelector(".flipbook .page");
