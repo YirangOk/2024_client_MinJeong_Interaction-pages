@@ -174,6 +174,13 @@
           var size = fitBook();
           book.turn("size", size.width, size.height);
         });
+
+        // 방향키로도 넘긴다(모서리를 잡지 않아도 되는 수단). 브라우저 단축키 조합(Alt+← 등)은 건드리지 않는다.
+        $(document).on("keydown", function (event) {
+          if (event.altKey || event.ctrlKey || event.metaKey) return;
+          if (event.key === "ArrowRight") book.turn("next");
+          if (event.key === "ArrowLeft") book.turn("previous");
+        });
       })();
     </script>
   </body>

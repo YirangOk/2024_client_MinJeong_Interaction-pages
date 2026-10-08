@@ -145,6 +145,11 @@ async function checkFlipbook(browser, base, { name, flip, opts }) {
   }
 
   if (!opts.hasTouch) {
+    await page.keyboard.press("ArrowRight");
+    check(name + ": → 키로 다음 펼침면(4-5쪽)", (await settled(page, "4,5")) === "4,5", await view(page));
+    await page.keyboard.press("ArrowLeft");
+    check(name + ": ← 키로 이전 펼침면(2-3쪽)", (await settled(page, "2,3")) === "2,3", await view(page));
+
     // 창 크기를 줄였다 되돌려도 책이 따라온다.
     await page.setViewportSize({ width: 700, height: 500 });
     await page.waitForTimeout(300);
