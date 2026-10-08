@@ -124,6 +124,11 @@ async function checkFlipbook(browser, base, { name, flip, opts }) {
   check(name + ": 책 둘레 노란 글로우", await page.evaluate(() => getComputedStyle(document.querySelector(".flipbook .shadow")).boxShadow.includes("rgb(255, 255, 0)")));
   const repeated = requests.filter((url, i) => requests.indexOf(url) !== i);
   check(name + ": 첫 로딩에 같은 파일을 두 번 받지 않음", repeated.length === 0, repeated);
+  const ratio = await page.evaluate(() => {
+    const box = document.querySelector(".flipbook .p1").getBoundingClientRect();
+    return box.width / box.height;
+  });
+  check(name + ": 쪽 비율이 원본 이미지(934x1342)와 같아 늘어나지 않음", Math.abs(ratio / (934 / 1342) - 1) < 0.01, ratio);
   check(name + ": 표지가 화면 안에 다 들어옴", !(await offscreen(page)), await offscreen(page));
   await shot("1-cover");
 

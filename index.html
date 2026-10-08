@@ -142,8 +142,9 @@
         }
 
         // 책 크기: 펼침면(쪽 2장)이 화면 안에 다 들어오게 맞춘다. 큰 화면에서는 높이 600 을 넘기지 않는다.
-        var PAGE_W = 461;
-        var PAGE_H = 600;
+        // 쪽 비율은 pages/*.jpg 원본(934x1342)을 따른다. 다르면 이미지가 늘어나 보인다.
+        var PAGE_W = 934;
+        var PAGE_H = 1342;
         var MAX_H = 600;
         function fitBook() {
           var view = document.documentElement;
