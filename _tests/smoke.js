@@ -50,7 +50,7 @@ const server = http.createServer((req, res) => {
 const VIEWPORTS = [
   { name: "데스크톱 1440x900", flip: true, opts: { viewport: { width: 1440, height: 900 } } },
   { name: "태블릿 820x1180", flip: true, opts: { viewport: { width: 820, height: 1180 }, hasTouch: true, isMobile: true } },
-  { name: "모바일 390x844", flip: false, opts: { viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 } },
+  { name: "모바일 390x844", flip: true, opts: { viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 } },
 ];
 
 async function open(browser, opts, url) {
@@ -89,9 +89,20 @@ async function imagesShown(page, requests) {
   return files.every((file) => file && requests.some((url) => url.endsWith(file)));
 }
 
+// 지금 펼침면이 잘리지 않고 화면 안에 있는지, 가로로 넘치는 영역이 없는지 본다. 문제없으면 null.
+function offscreen(page) {
+  return page.evaluate(() => {
+    const boxes = jQuery(".flipbook").turn("view").filter(Boolean).map((n) => document.querySelector(".flipbook .p" + n).getBoundingClientRect());
+    const box = { left: Math.min(...boxes.map((b) => b.left)), top: boxes[0].top, right: Math.max(...boxes.map((b) => b.right)), bottom: boxes[0].bottom };
+    const ok = box.left >= 0 && box.top >= 0 && box.right <= innerWidth && box.bottom <= innerHeight && document.documentElement.scrollWidth <= innerWidth;
+    return ok ? null : { book: box, viewport: [innerWidth, innerHeight], scrollWidth: document.documentElement.scrollWidth };
+  });
+}
+
 // 쪽의 아래 모서리를 실제 포인터로 누른다(터치 기기는 탭, 아니면 마우스). 화면 밖 좌표는 화면 가장자리로 당긴다.
 async function pressCorner(page, opts, pageNo, side) {
   const box = await page.locator(".flipbook .p" + pageNo).boundingBox();
+  if (!box) return; // 그 쪽이 화면에 없으면 누르지 않는다(뒤따르는 검사가 실패로 잡는다)
   const x = Math.min(opts.viewport.width - 5, Math.max(5, side === "right" ? box.x + box.width - 12 : box.x + 12));
   const y = box.y + box.height - 12;
   if (opts.hasTouch) return page.touchscreen.tap(x, y);
@@ -113,17 +124,31 @@ async function checkFlipbook(browser, base, { name, flip, opts }) {
   check(name + ": 책 둘레 노란 글로우", await page.evaluate(() => getComputedStyle(document.querySelector(".flipbook .shadow")).boxShadow.includes("rgb(255, 255, 0)")));
   const repeated = requests.filter((url, i) => requests.indexOf(url) !== i);
   check(name + ": 첫 로딩에 같은 파일을 두 번 받지 않음", repeated.length === 0, repeated);
+  check(name + ": 표지가 화면 안에 다 들어옴", !(await offscreen(page)), await offscreen(page));
   await shot("1-cover");
 
   if (flip) {
     await pressCorner(page, opts, 1, "right");
     check(name + ": 표지 오른쪽 아래 모서리 → 2-3쪽", (await settled(page, "2,3")) === "2,3", await view(page));
     check(name + ": 넘긴 펼침면에 이미지가 표시됨", await imagesShown(page, requests));
+    check(name + ": 펼침면이 화면 안에 다 들어옴", !(await offscreen(page)), await offscreen(page));
     await shot("2-spread");
     await pressCorner(page, opts, 3, "right");
     check(name + ": 오른쪽 모서리 → 4-5쪽", (await settled(page, "4,5")) === "4,5", await view(page));
     await pressCorner(page, opts, 4, "left");
     check(name + ": 왼쪽 모서리 → 2-3쪽으로 되돌아감", (await settled(page, "2,3")) === "2,3", await view(page));
+  }
+
+  if (!opts.hasTouch) {
+    // 창 크기를 줄였다 되돌려도 책이 따라온다.
+    await page.setViewportSize({ width: 700, height: 500 });
+    await page.waitForTimeout(300);
+    check(name + ": 창을 700x500 으로 줄여도 펼침면이 화면 안", !(await offscreen(page)), await offscreen(page));
+    await shot("2b-resized");
+    await page.setViewportSize(opts.viewport);
+    await page.waitForTimeout(300);
+    const height = await page.evaluate(() => document.querySelector(".flipbook").getBoundingClientRect().height);
+    check(name + ": 창을 되돌리면 책 높이 600 으로 복귀", height === 600 && !(await offscreen(page)), height);
   }
 
   await page.evaluate(() => jQuery(".flipbook").turn("page", 91));

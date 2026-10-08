@@ -122,37 +122,58 @@
     <script type="text/javascript" src="extras/jquery-3.7.1.min.js"></script>
     <script type="text/javascript" src="lib/turn.js"></script>
     <script type="text/javascript">
-      // 스크립트가 본문 끝에 있어 쪽 div 는 이미 만들어져 있다. 바로 초기화한다.
-      var book = $(".flipbook");
-      var pages = book.children().get(); // turn.js 가 범위 밖 쪽을 DOM 에서 빼도 요소는 그대로 쓴다
+      (function () {
+        // 스크립트가 본문 끝에 있어 쪽 div 는 이미 만들어져 있다. 바로 초기화한다.
+        var book = $(".flipbook");
+        var pages = book.children().get(); // turn.js 가 범위 밖 쪽을 DOM 에서 빼도 요소는 그대로 쓴다
 
-      // 쪽 이미지는 91장을 한꺼번에 받지 않고, 넘겨 갈 쪽과 그 앞뒤 범위
-      // (turn.js 가 DOM 에 두는 최대 6쪽)만 받는다. Image 로 미리 받아 두므로
-      // 다음·이전 쪽은 넘기기 전에 준비돼 빈 쪽이 보이지 않는다.
-      function loadImages(page) {
-        var range = book.turn("range", page);
-        for (var i = range[0]; i <= range[1]; i++) {
-          var el = pages[i - 1];
-          if (el.style.backgroundImage) continue;
-          var src = el.getAttribute("data-bg");
-          new Image().src = src;
-          el.style.backgroundImage = "url(" + src + ")";
+        // 쪽 이미지는 91장을 한꺼번에 받지 않고, 넘겨 갈 쪽과 그 앞뒤 범위
+        // (turn.js 가 DOM 에 두는 최대 6쪽)만 받는다. Image 로 미리 받아 두므로
+        // 다음·이전 쪽은 넘기기 전에 준비돼 빈 쪽이 보이지 않는다.
+        function loadImages(page) {
+          var range = book.turn("range", page);
+          for (var i = range[0]; i <= range[1]; i++) {
+            var el = pages[i - 1];
+            if (el.style.backgroundImage) continue;
+            var src = el.getAttribute("data-bg");
+            new Image().src = src;
+            el.style.backgroundImage = "url(" + src + ")";
+          }
         }
-      }
 
-      book.turn({
-        width: 922,
-        height: 600,
-        elevation: 50,
-        gradients: true,
-        autoCenter: true,
-        when: {
-          turning: function (event, page) {
-            loadImages(page);
+        // 책 크기: 펼침면(쪽 2장)이 화면 안에 다 들어오게 맞춘다. 큰 화면에서는 높이 600 을 넘기지 않는다.
+        var PAGE_W = 461;
+        var PAGE_H = 600;
+        var MAX_H = 600;
+        function fitBook() {
+          var view = document.documentElement;
+          var height = Math.floor(Math.min(MAX_H, view.clientHeight, (view.clientWidth * PAGE_H) / (2 * PAGE_W)));
+          var width = 2 * Math.floor((height * PAGE_W) / PAGE_H);
+          // .container 가 화면 한가운데(50%, 50%)에 있으므로 책을 절반만큼 당겨 중앙에 둔다.
+          book.css({ left: -width / 2, top: -height / 2 });
+          return { width: width, height: height };
+        }
+        var size = fitBook();
+
+        book.turn({
+          width: size.width,
+          height: size.height,
+          elevation: 50,
+          gradients: true,
+          autoCenter: true,
+          when: {
+            turning: function (event, page) {
+              loadImages(page);
+            },
           },
-        },
-      });
-      loadImages(1);
+        });
+        loadImages(1);
+
+        $(window).on("resize", function () {
+          var size = fitBook();
+          book.turn("size", size.width, size.height);
+        });
+      })();
     </script>
   </body>
 </html>

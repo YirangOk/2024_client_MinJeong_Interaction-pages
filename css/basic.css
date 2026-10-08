@@ -8,6 +8,7 @@ body{
 }
 
 .flipbook-viewport{
+	position:relative; /* 절대 위치인 .container 를 여기서 잘라 문서가 옆으로 넘치지 않게 한다 */
 	overflow:hidden;
 	width:100%;
 	height:100%;
