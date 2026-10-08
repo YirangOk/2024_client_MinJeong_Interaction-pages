@@ -2,7 +2,7 @@
 
 body{
 	overflow:hidden;
-	background-color: none;
+	background-color: transparent;
 	margin:0;
 	padding:0;
 }
