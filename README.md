@@ -6,9 +6,9 @@
 
 ## 구조
 
-- `index.html` — 플립북 본체 (페이지 이미지 91장 참조)
-- `pages/` — 페이지 이미지 (`page-001.jpg` ~ `page-091.jpg`)
-- `lib/`, `extras/` — turn.js 라이브러리와 의존 스크립트
+- `index.html` — 플립북 본체 (페이지 이미지 91장 참조). 쪽은 `<div data-bg="pages/page-NNN.jpg">` 한 줄씩이고, 펼친 쪽과 그 앞뒤 쪽만 스크립트가 이미지를 받는다. 책은 화면 크기에 맞춰 줄어든다(높이 최대 600px).
+- `pages/` — 페이지 이미지 (`page-001.jpg` ~ `page-091.jpg`, 모두 934x1342). 크기를 바꾸면 `index.html`의 `PAGE_W`/`PAGE_H`도 맞춘다.
+- `lib/`, `extras/` — turn.js 라이브러리와 의존 스크립트. 실제로 불러오는 것은 `extras/jquery-3.7.1.min.js`와 `lib/turn.js` 둘이다. `lib/turn.min.js`, `lib/turn.html4.js`, `lib/turn.html4.min.js`, `extras/modernizr.2.5.3.min.js`는 지금 불러오지 않는다.
 - `_tests/smoke.js` — 스모크 검사 (밑줄 폴더라 Pages에는 배포되지 않는다)
 
 ## 검증
