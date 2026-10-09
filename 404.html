@@ -31,6 +31,22 @@
         padding: 48px;
         box-sizing: border-box;
       }
+      /* 글자 위치는 그대로 두고 링크의 누르는 영역만 44px 높이로 키운다. */
+      a {
+        display: inline-block;
+        padding: 13px 0;
+        margin: -13px 0;
+      }
+      /* 카드(461px)보다 좁은 화면에서는 카드를 화면 폭에 맞춘다. */
+      @media (max-width: 461px) {
+        .flipbook-viewport .flipbook {
+          width: 100vw;
+          left: -50vw;
+        }
+        .flipbook-viewport .page {
+          width: 100%;
+        }
+      }
     </style>
   </head>
   <body>

@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <title>Flipbook Example</title>
+    <title>김민정 Kim Min Jeong — 2024 Portfolio</title>
     <link rel="stylesheet" href="css/basic.css" />
+    <!-- 표지는 스크립트를 기다리지 않고 바로 받는다(나머지 쪽은 아래 loadImages 가 받는다). -->
+    <link rel="preload" as="image" href="pages/page-001.jpg" />
     <style>
       body {
         height: 100vh;
@@ -23,139 +25,163 @@
     <div class="flipbook-viewport">
       <div class="container">
         <div class="flipbook">
-          <div style="background-image: url(pages/page-001.jpg)"></div>
-          <div style="background-image: url(pages/page-002.jpg)"></div>
-          <div style="background-image: url(pages/page-003.jpg)"></div>
-          <div style="background-image: url(pages/page-004.jpg)"></div>
-          <div style="background-image: url(pages/page-005.jpg)"></div>
-          <div style="background-image: url(pages/page-006.jpg)"></div>
-          <div style="background-image: url(pages/page-007.jpg)"></div>
-          <div style="background-image: url(pages/page-008.jpg)"></div>
-          <div style="background-image: url(pages/page-009.jpg)"></div>
-          <div style="background-image: url(pages/page-010.jpg)"></div>
-          <div style="background-image: url(pages/page-011.jpg)"></div>
-          <div style="background-image: url(pages/page-012.jpg)"></div>
-          <div style="background-image: url(pages/page-013.jpg)"></div>
-          <div style="background-image: url(pages/page-014.jpg)"></div>
-          <div style="background-image: url(pages/page-015.jpg)"></div>
-          <div style="background-image: url(pages/page-016.jpg)"></div>
-          <div style="background-image: url(pages/page-017.jpg)"></div>
-          <div style="background-image: url(pages/page-018.jpg)"></div>
-          <div style="background-image: url(pages/page-019.jpg)"></div>
-          <div style="background-image: url(pages/page-020.jpg)"></div>
-          <div style="background-image: url(pages/page-021.jpg)"></div>
-          <div style="background-image: url(pages/page-022.jpg)"></div>
-          <div style="background-image: url(pages/page-023.jpg)"></div>
-          <div style="background-image: url(pages/page-024.jpg)"></div>
-          <div style="background-image: url(pages/page-025.jpg)"></div>
-          <div style="background-image: url(pages/page-026.jpg)"></div>
-          <div style="background-image: url(pages/page-027.jpg)"></div>
-          <div style="background-image: url(pages/page-028.jpg)"></div>
-          <div style="background-image: url(pages/page-029.jpg)"></div>
-          <div style="background-image: url(pages/page-030.jpg)"></div>
-          <div style="background-image: url(pages/page-031.jpg)"></div>
-          <div style="background-image: url(pages/page-032.jpg)"></div>
-          <div style="background-image: url(pages/page-033.jpg)"></div>
-          <div style="background-image: url(pages/page-034.jpg)"></div>
-          <div style="background-image: url(pages/page-035.jpg)"></div>
-          <div style="background-image: url(pages/page-036.jpg)"></div>
-          <div style="background-image: url(pages/page-037.jpg)"></div>
-          <div style="background-image: url(pages/page-038.jpg)"></div>
-          <div style="background-image: url(pages/page-039.jpg)"></div>
-          <div style="background-image: url(pages/page-040.jpg)"></div>
-          <div style="background-image: url(pages/page-041.jpg)"></div>
-          <div style="background-image: url(pages/page-042.jpg)"></div>
-          <div style="background-image: url(pages/page-043.jpg)"></div>
-          <div style="background-image: url(pages/page-044.jpg)"></div>
-          <div style="background-image: url(pages/page-045.jpg)"></div>
-          <div style="background-image: url(pages/page-046.jpg)"></div>
-          <div style="background-image: url(pages/page-047.jpg)"></div>
-          <div style="background-image: url(pages/page-048.jpg)"></div>
-          <div style="background-image: url(pages/page-049.jpg)"></div>
-          <div style="background-image: url(pages/page-050.jpg)"></div>
-          <div style="background-image: url(pages/page-051.jpg)"></div>
-          <div style="background-image: url(pages/page-052.jpg)"></div>
-          <div style="background-image: url(pages/page-053.jpg)"></div>
-          <div style="background-image: url(pages/page-054.jpg)"></div>
-          <div style="background-image: url(pages/page-055.jpg)"></div>
-          <div style="background-image: url(pages/page-056.jpg)"></div>
-          <div style="background-image: url(pages/page-057.jpg)"></div>
-          <div style="background-image: url(pages/page-058.jpg)"></div>
-          <div style="background-image: url(pages/page-059.jpg)"></div>
-          <div style="background-image: url(pages/page-060.jpg)"></div>
-          <div style="background-image: url(pages/page-061.jpg)"></div>
-          <div style="background-image: url(pages/page-062.jpg)"></div>
-          <div style="background-image: url(pages/page-063.jpg)"></div>
-          <div style="background-image: url(pages/page-064.jpg)"></div>
-          <div style="background-image: url(pages/page-065.jpg)"></div>
-          <div style="background-image: url(pages/page-066.jpg)"></div>
-          <div style="background-image: url(pages/page-067.jpg)"></div>
-          <div style="background-image: url(pages/page-068.jpg)"></div>
-          <div style="background-image: url(pages/page-069.jpg)"></div>
-          <div style="background-image: url(pages/page-070.jpg)"></div>
-          <div style="background-image: url(pages/page-071.jpg)"></div>
-          <div style="background-image: url(pages/page-072.jpg)"></div>
-          <div style="background-image: url(pages/page-073.jpg)"></div>
-          <div style="background-image: url(pages/page-074.jpg)"></div>
-          <div style="background-image: url(pages/page-075.jpg)"></div>
-          <div style="background-image: url(pages/page-076.jpg)"></div>
-          <div style="background-image: url(pages/page-077.jpg)"></div>
-          <div style="background-image: url(pages/page-078.jpg)"></div>
-          <div style="background-image: url(pages/page-079.jpg)"></div>
-          <div style="background-image: url(pages/page-080.jpg)"></div>
-          <div style="background-image: url(pages/page-081.jpg)"></div>
-          <div style="background-image: url(pages/page-082.jpg)"></div>
-          <div style="background-image: url(pages/page-083.jpg)"></div>
-          <div style="background-image: url(pages/page-084.jpg)"></div>
-          <div style="background-image: url(pages/page-085.jpg)"></div>
-          <div style="background-image: url(pages/page-086.jpg)"></div>
-          <div style="background-image: url(pages/page-087.jpg)"></div>
-          <div style="background-image: url(pages/page-088.jpg)"></div>
-          <div style="background-image: url(pages/page-089.jpg)"></div>
-          <div style="background-image: url(pages/page-090.jpg)"></div>
-          <div style="background-image: url(pages/page-091.jpg)"></div>
+          <div data-bg="pages/page-001.jpg"></div>
+          <div data-bg="pages/page-002.jpg"></div>
+          <div data-bg="pages/page-003.jpg"></div>
+          <div data-bg="pages/page-004.jpg"></div>
+          <div data-bg="pages/page-005.jpg"></div>
+          <div data-bg="pages/page-006.jpg"></div>
+          <div data-bg="pages/page-007.jpg"></div>
+          <div data-bg="pages/page-008.jpg"></div>
+          <div data-bg="pages/page-009.jpg"></div>
+          <div data-bg="pages/page-010.jpg"></div>
+          <div data-bg="pages/page-011.jpg"></div>
+          <div data-bg="pages/page-012.jpg"></div>
+          <div data-bg="pages/page-013.jpg"></div>
+          <div data-bg="pages/page-014.jpg"></div>
+          <div data-bg="pages/page-015.jpg"></div>
+          <div data-bg="pages/page-016.jpg"></div>
+          <div data-bg="pages/page-017.jpg"></div>
+          <div data-bg="pages/page-018.jpg"></div>
+          <div data-bg="pages/page-019.jpg"></div>
+          <div data-bg="pages/page-020.jpg"></div>
+          <div data-bg="pages/page-021.jpg"></div>
+          <div data-bg="pages/page-022.jpg"></div>
+          <div data-bg="pages/page-023.jpg"></div>
+          <div data-bg="pages/page-024.jpg"></div>
+          <div data-bg="pages/page-025.jpg"></div>
+          <div data-bg="pages/page-026.jpg"></div>
+          <div data-bg="pages/page-027.jpg"></div>
+          <div data-bg="pages/page-028.jpg"></div>
+          <div data-bg="pages/page-029.jpg"></div>
+          <div data-bg="pages/page-030.jpg"></div>
+          <div data-bg="pages/page-031.jpg"></div>
+          <div data-bg="pages/page-032.jpg"></div>
+          <div data-bg="pages/page-033.jpg"></div>
+          <div data-bg="pages/page-034.jpg"></div>
+          <div data-bg="pages/page-035.jpg"></div>
+          <div data-bg="pages/page-036.jpg"></div>
+          <div data-bg="pages/page-037.jpg"></div>
+          <div data-bg="pages/page-038.jpg"></div>
+          <div data-bg="pages/page-039.jpg"></div>
+          <div data-bg="pages/page-040.jpg"></div>
+          <div data-bg="pages/page-041.jpg"></div>
+          <div data-bg="pages/page-042.jpg"></div>
+          <div data-bg="pages/page-043.jpg"></div>
+          <div data-bg="pages/page-044.jpg"></div>
+          <div data-bg="pages/page-045.jpg"></div>
+          <div data-bg="pages/page-046.jpg"></div>
+          <div data-bg="pages/page-047.jpg"></div>
+          <div data-bg="pages/page-048.jpg"></div>
+          <div data-bg="pages/page-049.jpg"></div>
+          <div data-bg="pages/page-050.jpg"></div>
+          <div data-bg="pages/page-051.jpg"></div>
+          <div data-bg="pages/page-052.jpg"></div>
+          <div data-bg="pages/page-053.jpg"></div>
+          <div data-bg="pages/page-054.jpg"></div>
+          <div data-bg="pages/page-055.jpg"></div>
+          <div data-bg="pages/page-056.jpg"></div>
+          <div data-bg="pages/page-057.jpg"></div>
+          <div data-bg="pages/page-058.jpg"></div>
+          <div data-bg="pages/page-059.jpg"></div>
+          <div data-bg="pages/page-060.jpg"></div>
+          <div data-bg="pages/page-061.jpg"></div>
+          <div data-bg="pages/page-062.jpg"></div>
+          <div data-bg="pages/page-063.jpg"></div>
+          <div data-bg="pages/page-064.jpg"></div>
+          <div data-bg="pages/page-065.jpg"></div>
+          <div data-bg="pages/page-066.jpg"></div>
+          <div data-bg="pages/page-067.jpg"></div>
+          <div data-bg="pages/page-068.jpg"></div>
+          <div data-bg="pages/page-069.jpg"></div>
+          <div data-bg="pages/page-070.jpg"></div>
+          <div data-bg="pages/page-071.jpg"></div>
+          <div data-bg="pages/page-072.jpg"></div>
+          <div data-bg="pages/page-073.jpg"></div>
+          <div data-bg="pages/page-074.jpg"></div>
+          <div data-bg="pages/page-075.jpg"></div>
+          <div data-bg="pages/page-076.jpg"></div>
+          <div data-bg="pages/page-077.jpg"></div>
+          <div data-bg="pages/page-078.jpg"></div>
+          <div data-bg="pages/page-079.jpg"></div>
+          <div data-bg="pages/page-080.jpg"></div>
+          <div data-bg="pages/page-081.jpg"></div>
+          <div data-bg="pages/page-082.jpg"></div>
+          <div data-bg="pages/page-083.jpg"></div>
+          <div data-bg="pages/page-084.jpg"></div>
+          <div data-bg="pages/page-085.jpg"></div>
+          <div data-bg="pages/page-086.jpg"></div>
+          <div data-bg="pages/page-087.jpg"></div>
+          <div data-bg="pages/page-088.jpg"></div>
+          <div data-bg="pages/page-089.jpg"></div>
+          <div data-bg="pages/page-090.jpg"></div>
+          <div data-bg="pages/page-091.jpg"></div>
         </div>
       </div>
     </div>
     <script type="text/javascript" src="extras/jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="extras/modernizr.2.5.3.min.js"></script>
+    <script type="text/javascript" src="lib/turn.js"></script>
     <script type="text/javascript">
-      document.addEventListener("DOMContentLoaded", function (event) {
-        function loadApp() {
-          // Create the flipbook
+      (function () {
+        // 스크립트가 본문 끝에 있어 쪽 div 는 이미 만들어져 있다. 바로 초기화한다.
+        var book = $(".flipbook");
+        var pages = book.children().get(); // turn.js 가 범위 밖 쪽을 DOM 에서 빼도 요소는 그대로 쓴다
 
-          $(".flipbook").turn({
-            // Width
-
-            width: 922,
-
-            // Height
-
-            height: 600,
-
-            // Elevation
-
-            elevation: 50,
-
-            // Enable gradients
-
-            gradients: true,
-
-            // Auto center this flipbook
-
-            autoCenter: true,
-          });
+        // 쪽 이미지는 91장을 한꺼번에 받지 않고, 넘겨 갈 쪽과 그 앞뒤 범위
+        // (turn.js 가 DOM 에 두는 최대 6쪽)만 받는다. Image 로 미리 받아 두므로
+        // 다음·이전 쪽은 넘기기 전에 준비돼 빈 쪽이 보이지 않는다.
+        function loadImages(page) {
+          var range = book.turn("range", page);
+          for (var i = range[0]; i <= range[1]; i++) {
+            var el = pages[i - 1];
+            if (el.style.backgroundImage) continue;
+            var src = el.getAttribute("data-bg");
+            new Image().src = src;
+            el.style.backgroundImage = "url(" + src + ")";
+          }
         }
-        // Load the HTML4 version if there's not CSS transform
 
-        yepnope({
-          test: Modernizr.csstransforms,
-          yep: ["lib/turn.js"],
-          nope: ["lib/turn.html4.min.js"],
-          both: ["css/basic.css"],
-          complete: loadApp,
+        // 책 크기: 펼침면(쪽 2장)이 화면 안에 다 들어오게 맞춘다. 큰 화면에서는 높이 600 을 넘기지 않는다.
+        // 쪽 비율은 pages/*.jpg 원본(934x1342)을 따른다. 다르면 이미지가 늘어나 보인다.
+        var PAGE_W = 934;
+        var PAGE_H = 1342;
+        var MAX_H = 600;
+        function fitBook() {
+          var view = document.documentElement;
+          var height = Math.floor(Math.min(MAX_H, view.clientHeight, (view.clientWidth * PAGE_H) / (2 * PAGE_W)));
+          var width = 2 * Math.floor((height * PAGE_W) / PAGE_H);
+          // .container 가 화면 한가운데(50%, 50%)에 있으므로 책을 절반만큼 당겨 중앙에 둔다.
+          book.css({ left: -width / 2, top: -height / 2 });
+          return { width: width, height: height };
+        }
+        var size = fitBook();
+
+        book.turn({
+          width: size.width,
+          height: size.height,
+          elevation: 50,
+          gradients: true,
+          autoCenter: true,
+          when: {
+            turning: function (event, page) {
+              loadImages(page);
+            },
+          },
         });
-      });
+        loadImages(1);
+
+        $(window).on("resize", function () {
+          var size = fitBook();
+          book.turn("size", size.width, size.height);
+        });
+
+        // 방향키로도 넘긴다(모서리를 잡지 않아도 되는 수단). 브라우저 단축키 조합(Alt+← 등)은 건드리지 않는다.
+        $(document).on("keydown", function (event) {
+          if (event.altKey || event.ctrlKey || event.metaKey) return;
+          if (event.key === "ArrowRight") book.turn("next");
+          if (event.key === "ArrowLeft") book.turn("previous");
+        });
+      })();
     </script>
   </body>
 </html>
