@@ -1,2 +1,5 @@
 .DS_Store
 node_modules/
+
+# Local AI work artifacts: never commit or deploy.
+/.local/
